@@ -1,10 +1,10 @@
 <template lang="pug">
 .tree-root
   span.tree-root__title {{ title }}
-  span.tree-root__current-path(v-if="this.currentPathToRender") {{ this.currentPathToRender }}
+  span.tree-root__current-path(v-if="currentPathToRender") {{ currentPathToRender }}
   tree-node(
     v-for="(item, index) in currentList"
-    :key="index"
+    :key="item.name"
     :list="currentList"
     :chosen-item="chosenItem"
     :paddingTop="paddingTop"

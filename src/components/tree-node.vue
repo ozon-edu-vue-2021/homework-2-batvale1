@@ -4,12 +4,12 @@ ul.tree-node(:style="currentYOffset")
     v-for="(item, index) in list"
     tabindex="0"
     ref="item"
-    :key="index"
-    :class="getClass(item)"
+    :key="item.name"
+    :class="listInfo[item.name].classes"
     @click.stop="clickHandler(item)"
     @keydown.stop.prevent.down="keyDownHandler(index)"
     @keydown.stop.prevent.up="keyUpHandler(index)"
-  ) {{ getTitle(item) }}
+  ) {{ listInfo[item.name].title }}
     tree-node.tree-node__list(
       v-if="showChildren(item)"
       :list="item.contents"
@@ -47,6 +47,18 @@ export default {
   computed: {
     currentYOffset () {
       return { paddingTop: `${this.paddingTop}px` };
+    },
+
+    listInfo () {
+      const result = {};
+
+      this.list.forEach(item => {
+        result[item.name] = {};
+        result[item.name].title = this.getTitle(item);
+        result[item.name].classes = this.getClass(item);
+      })
+
+      return result;
     }
   },
 
