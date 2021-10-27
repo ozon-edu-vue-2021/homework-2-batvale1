@@ -1,5 +1,5 @@
 <template lang="pug">
-.tree-root
+.tree-root(ref="root")
   span.tree-root__title {{ title }}
   span.tree-root__current-path(v-if="currentPathToRender") {{ currentPathToRender }}
   tree-node(
@@ -8,6 +8,7 @@
     :list="currentList"
     :chosen-item="chosenItem"
     :paddingTop="paddingTop"
+    :root="$refs.root"
     @pick-up="setPickedUpItemHandler"
   )
 </template>

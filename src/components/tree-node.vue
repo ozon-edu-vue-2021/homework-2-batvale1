@@ -17,6 +17,7 @@ ul.tree-node(:style="currentYOffset")
       :list="item.contents"
       :chosen-item="chosenItem"
       :padding-top="paddingTop"
+      :root="root"
       @pick-up="(payload) => pickUpItemHandler(item, payload)"
     )
 </template>
@@ -43,6 +44,10 @@ export default {
     chosenItem: {
       type: Object,
       default: () => ({})
+    },
+    root: {
+      type: [HTMLElement, undefined],
+      required: false
     }
   },
 
@@ -73,12 +78,13 @@ export default {
       let indexToSet;
 
       if (index === listLength - 1) {
-        const parent = this.$el.parentElement;
-        const sibling = parent.nextSibling;
+        const sibling = this.getSibling(this.$el);
 
         if (sibling) {
           sibling.focus();
         }
+
+        return;
       } else {
         indexToSet = index + 1;
       }
@@ -156,6 +162,26 @@ export default {
         typeClass,
         { 'tree-node__item--is-active': isActiveClass }
       ]
+    },
+
+    // service
+
+    getSibling (element) {
+      let sibling = element;
+
+      while (sibling !== this.root) {
+        const parentElement = sibling.parentElement;
+
+        sibling = parentElement.nextSibling;
+
+        if (!sibling) {
+          sibling = parentElement;
+        } else {
+          return sibling;
+        }
+      }
+
+      return null;
     }
   }
 };
