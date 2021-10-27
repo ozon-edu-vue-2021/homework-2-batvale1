@@ -13,6 +13,7 @@ ul.tree-node(:style="currentYOffset")
   ) {{ listInfo[item.name].title }}
     tree-node.tree-node__list(
       v-if="showChildren(item)"
+      tabindex="0"
       :list="item.contents"
       :chosen-item="chosenItem"
       :padding-top="paddingTop"
@@ -72,7 +73,12 @@ export default {
       let indexToSet;
 
       if (index === listLength - 1) {
-        indexToSet = 0;
+        const parent = this.$el.parentElement;
+        const sibling = parent.nextSibling;
+
+        if (sibling) {
+          sibling.focus();
+        }
       } else {
         indexToSet = index + 1;
       }
@@ -85,11 +91,11 @@ export default {
     keyUpHandler (index) {
       if (!this.chosenItem) return;
 
-      const listLength = this.list.length;
       let indexToSet;
 
       if (index === 0) {
-        indexToSet = listLength - 1;
+        this.$el.parentElement.focus();
+        return;
       } else {
         indexToSet = index - 1;
       }
