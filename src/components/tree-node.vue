@@ -7,6 +7,7 @@ ul.tree-node(:style="currentYOffset")
     :key="item.name"
     :class="listInfo[item.name].classes"
     @click.stop="clickHandler(item)"
+    @keydown.stop.enter="clickHandler(item)"
     @keydown.stop.prevent.down="keyDownHandler(index)"
     @keydown.stop.prevent.up="keyUpHandler(index)"
   ) {{ listInfo[item.name].title }}
@@ -76,8 +77,6 @@ export default {
         indexToSet = index + 1;
       }
 
-      this.pickUpItemHandler(this.list[indexToSet]);
-
       const nextHTMLElement = this.$refs.item[indexToSet];
 
       nextHTMLElement.focus();
@@ -94,8 +93,6 @@ export default {
       } else {
         indexToSet = index - 1;
       }
-
-      this.pickUpItemHandler(this.list[indexToSet]);
 
       const nextHTMLElement = this.$refs.item[indexToSet];
 
@@ -195,5 +192,6 @@ export default {
 
 .tree-node__item:focus {
   outline: none;
+  border: 1px dashed red;
 }
 </style>
