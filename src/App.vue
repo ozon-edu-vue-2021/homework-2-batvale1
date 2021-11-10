@@ -1,17 +1,25 @@
-<template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+<template lang="pug">
+  #app
+    TreeRoot(
+      :current-list="currentList"
+    )
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TreeRoot from './components/tree-root.vue';
+import list from '../public/static/node_modules.json';
 
 export default {
   name: 'App',
+
   components: {
-    HelloWorld
+    TreeRoot
+  },
+
+  computed: {
+    currentList () {
+      return typeof list === 'object' ? [list] : list;
+    }
   }
 }
 </script>
@@ -19,10 +27,11 @@ export default {
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  color: white;
   margin-top: 60px;
+}
+
+body {
+  background-color: #0a1231;
 }
 </style>
